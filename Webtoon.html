@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- 가정 : 웹툰에 대한 정보를 출력 하는 프로그램을 만들려고한다 -->
+<!-- 웹툰에 대한 정보는 DB에 있다는 가정 -->
+	<h1>웹툰 정보 출력</h1>
+	<table border = "1" id = "start">
+		<tr>
+			<td>제목</td>
+			<td>작가</td>
+			<td>연재일</td>
+		</tr>
+		</table>
+		<button>웹툰 정보 가져오기</button>
+		
+		<script src = "jquery-3.6.0.min.js"></script>
+		<script type = "text/javascript">
+		
+			$("button").on("click" , function(){
+				$.ajax({
+					url : "Webtoon",
+					dataType : "json", // dataType 넘겨받을때의 데이터 타입 약속
+					success : function(result){
+						alert("성공");
+						// json 형식의 문자열을 사용가능한 객체로 바꾸어 줌
+						// console.log(JSON.parse(result[0]));
+						for (let i = 0 ; i < result.length; i ++) {
+							// 현재 배열의 원소를 사용가능한 객체로 바꿔줌
+							let data = JSON.parse(result[i]);
+							$("#start").append("<tr>"
+									+"<td>"+data.title+"</td>"
+									+"<td>"+data.writer+"</td>"
+									+"<td>"+data.openDay+"</td>"
+									+"</tr>");
+						}
+					} ,
+					error : function(){
+						alert("실패");
+					}
+				});
+			});
+		</script>
+</body>
+</html>
